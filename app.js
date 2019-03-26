@@ -27,6 +27,7 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(express.static('wwwroot'))
 app.use(logger('dev'))
 
 // require the whole ./api and ./routes directories

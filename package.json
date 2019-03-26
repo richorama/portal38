@@ -4,7 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "watch": "watchify -v -t babelify index.jsx -g [ envify --NODE_ENV development ] -o ./wwwroot/index.min.js",
+    "fastbuild": "browserify -t babelify index.jsx -g [ envify --NODE_ENV development ] > ./wwwroot/index.min.js",
+    "build": "npm run lint && npm run test && npm run browserify",
+    "lint": "eslint . --ext .js --ext .jsx",
+    "test": "mocha",
+    "browserify": "browserify -t babelify index.jsx -g [ envify --NODE_ENV production ] -g uglifyify  | uglifyjs --compress warnings=false --mangle > ./wwwroot/index.min.js"
   },
   "author": "Richard Astbury",
   "license": "MIT",
@@ -12,5 +17,20 @@
     "express": "^4.16.4",
     "morgan": "^1.9.1",
     "tile38": "^0.6.6"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.3",
+    "envify": "^4.1.0",
+    "eslint-plugin-react": "^7.12.4",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "uglify-js": "^3.5.2",
+    "watchify": "^3.11.1"
   }
 }
