@@ -1,0 +1,16 @@
+{
+  "name": "portal38",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Richard Astbury",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "tile38": "^0.6.6"
+  }
+}
