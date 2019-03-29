@@ -25,23 +25,33 @@ const [ITEMS, MAP, STATS] = tabs
 const Key = class extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: true, data: null, activeTab: tabs[0] }
+    this.state = { loading: true, data: null, activeTab: tabs[0], stats: null }
 
-    this.handleServerResponse = this.handleServerResponse.bind(this)
+    this.handleScanResponse = this.handleScanResponse.bind(this)
+    this.handleStatsResponse = this.handleStatsResponse.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
-    http.get(`/api/scan/${this.props.keyName}`).then(this.handleServerResponse)
+    http.get(`/api/scan/${this.props.keyName}`).then(this.handleScanResponse)
   }
 
-  handleServerResponse(data) {
+  handleScanResponse(data) {
     this.setState({ data, loading: false })
   }
 
   handleClick(activeTab) {
     console.log(activeTab)
     this.setState({ activeTab })
+    if (activeTab === STATS) {
+      http
+        .get(`/api/stats/${this.props.keyName}`)
+        .then(this.handleStatsResponse)
+    }
+  }
+
+  handleStatsResponse(data) {
+    this.setState({ stats: data[0] })
   }
 
   renderItem(item) {
@@ -68,8 +78,24 @@ const Key = class extends Component {
     return <div>map</div>
   }
 
+  renderStat(key, value) {
+    return (
+      <tr key={key}>
+        <td>{key}</td>
+        <td>{value}</td>
+      </tr>
+    )
+  }
+
   renderStats() {
-    return <div>stats</div>
+    if (!this.state.stats){
+      return <Loading/>
+    }
+    return (
+      <table className="table">
+        <tbody>{Object.keys(this.state.stats).map(key => this.renderStat(key, this.state.stats[key]))}</tbody>
+      </table>
+    )
   }
 
   renderBody() {
