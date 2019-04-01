@@ -8,69 +8,41 @@ const Properties = require('../components/properties.jsx')
 
 const tabs = [
   {
-    icon: 'icon-docs',
-    title: 'Objects'
+    icon: 'icon-doc',
+    title: 'Object'
   },
   {
     icon: 'icon-map',
     title: 'Map'
-  },
-  {
-    icon: 'icon-speedometer',
-    title: 'Stats'
   }
 ]
 
-const [OBJECTS, MAP, STATS] = tabs
+const [OBJECT, MAP] = tabs
 
 const Key = class extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, data: null, activeTab: tabs[0], stats: null }
 
-    this.handleScanResponse = this.handleScanResponse.bind(this)
-    this.handleStatsResponse = this.handleStatsResponse.bind(this)
+    this.handleGetResponse = this.handleGetResponse.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
-    http.get(`/api/scan/${this.props.keyName}`).then(this.handleScanResponse)
+    http.get(`/api/get/${this.props.keyName}/${this.props.id}`).then(this.handleGetResponse)
   }
 
-  handleScanResponse(data) {
-    this.setState({ data, loading: false })
+  handleGetResponse(data) {
+    this.setState({ data: data.object, loading: false })
   }
 
   handleClick(activeTab) {
     this.setState({ activeTab })
-    if (activeTab === STATS) {
-      http
-        .get(`/api/stats/${this.props.keyName}`)
-        .then(this.handleStatsResponse)
-    }
   }
 
-  handleStatsResponse(data) {
-    this.setState({ stats: data[0] })
-  }
-
-  renderItem(item) {
+  renderObject() {
     return (
-      <a
-        key={item.id}
-        href={`#/object/${this.props.keyName}/${item.id}`}
-        className="list-group-item list-group-item-action"
-      >
-        {item.id}
-      </a>
-    )
-  }
-
-  renderList() {
-    return (
-      <div className="list-group">
-        {this.state.data.objects.map(x => this.renderItem(x))}
-      </div>
+      <Properties value={this.state.data.properties} />
     )
   }
 
@@ -78,23 +50,12 @@ const Key = class extends Component {
     return <div>map</div>
   }
 
-  renderStats() {
-    if (!this.state.stats){
-      return <Loading/>
-    }
-    return (
-      <Properties value={this.state.stats} />
-    )
-  }
-
   renderBody() {
     switch (this.state.activeTab) {
-      case OBJECTS:
-        return this.renderList()
+      case OBJECT:
+        return this.renderObject()
       case MAP:
         return this.renderMap()
-      case STATS:
-        return this.renderStats()
     }
   }
 
