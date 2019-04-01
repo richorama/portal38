@@ -4,12 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "watch": "watchify -v -t babelify index.jsx -g [ envify --NODE_ENV development ] -o ./wwwroot/index.min.js",
-    "fastbuild": "browserify -t babelify index.jsx -g [ envify --NODE_ENV development ] > ./wwwroot/index.min.js",
+    "example": "browserify -g [ babelify --presets [ \"@babel/preset-env\" ] ] --entry index.jsx > bundle.js",
+    "watch": "watchify -v -g [ babelify --presets [ \"@babel/preset-env\" ] ]  index.jsx -g [ envify --NODE_ENV development ] -o ./wwwroot/index.min.js",
     "build": "npm run lint && npm run test && npm run browserify",
     "lint": "eslint . --ext .js --ext .jsx",
     "test": "mocha",
-    "browserify": "browserify -t babelify index.jsx -g [ envify --NODE_ENV production ] -g uglifyify  | uglifyjs --compress warnings=false --mangle > ./wwwroot/index.min.js"
+    "browserify": "browserify -g babelify index.jsx -g [ envify --NODE_ENV production ] -g uglifyify  | uglifyjs --compress warnings=false --mangle > ./wwwroot/index.min.js"
   },
   "author": "Richard Astbury",
   "license": "MIT",
@@ -19,15 +19,14 @@
     "tile38": "^0.6.6"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babelify": "^8.0.0",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "babelify": "^9.0.0",
     "browserify": "^16.2.3",
     "envify": "^4.1.0",
     "eslint-plugin-react": "^7.12.4",
+    "ol": "^5.3.1",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "uglify-js": "^3.5.2",

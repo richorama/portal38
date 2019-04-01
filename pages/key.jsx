@@ -5,6 +5,7 @@ const Loading = require('../components/loading.jsx')
 const http = require('../lib/http')
 const Tabs = require('../components/tabs.jsx')
 const Properties = require('../components/properties.jsx')
+const Map = require('../components/map.jsx')
 
 const tabs = [
   {
@@ -75,7 +76,7 @@ const Key = class extends Component {
   }
 
   renderMap() {
-    return <div>map</div>
+    return <Map />
   }
 
   renderStats() {
