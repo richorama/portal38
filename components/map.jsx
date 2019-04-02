@@ -1,11 +1,39 @@
 const React = require('react')
 import Map from 'ol/Map'
-import View from  'ol/View'
-import TileLayer from 'ol/layer/Tile'
+import View from 'ol/View'
 import XYZ from 'ol/source/XYZ'
+import GeoJSON from 'ol/format/GeoJSON'
+import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer.js'
+import { Vector as VectorSource } from 'ol/source.js'
+import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js'
+
+const image = new CircleStyle({
+  radius: 5,
+  fill: null,
+  stroke: new Stroke({ color: 'red', width: 1 })
+})
 
 const MapComponent = class extends React.PureComponent {
+  styleFunction(feature) {
+    return new Style({
+      stroke: new Stroke({
+        color: 'red',
+        width: 2
+      }),
+      fill: new Fill({
+        color: 'rgba(255,0,0,0.2)'
+      }),
+      image
+    })
+  }
   componentDidMount() {
+    const vectorSource = new VectorSource({
+      features: new GeoJSON().readFeatures(this.props.geoJson, {
+        dataProjection: 'EPSG:4326',
+        featureProjection: 'EPSG:3857'
+      })
+    })
+
     new Map({
       target: this.refs.map,
       layers: [
@@ -13,6 +41,10 @@ const MapComponent = class extends React.PureComponent {
           source: new XYZ({
             url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           })
+        }),
+        new VectorLayer({
+          source: vectorSource,
+          style: this.styleFunction
         })
       ],
       view: new View({
@@ -24,7 +56,7 @@ const MapComponent = class extends React.PureComponent {
   render() {
     return (
       <div
-        style={{ width: '100%', height: (this.props.height || 650) }}
+        style={{ width: '100%', height: this.props.height || 650 }}
         ref="map"
       />
     )
