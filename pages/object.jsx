@@ -9,16 +9,20 @@ const Map = require('../components/map.jsx')
 
 const tabs = [
   {
-    icon: 'icon-doc',
-    title: 'Object'
+    icon: 'icon-list',
+    title: 'Properties'
   },
   {
     icon: 'icon-map',
     title: 'Map'
+  },
+  {
+    icon: 'icon-note',
+    title: 'JSON'
   }
 ]
 
-const [OBJECT, MAP] = tabs
+const [OBJECT, MAP, JSONTAB] = tabs
 
 const Key = class extends Component {
   constructor(props) {
@@ -30,7 +34,9 @@ const Key = class extends Component {
   }
 
   componentDidMount() {
-    http.get(`/api/get/${this.props.keyName}/${this.props.id}`).then(this.handleGetResponse)
+    http
+      .get(`/api/get/${this.props.keyName}/${this.props.id}`)
+      .then(this.handleGetResponse)
   }
 
   handleGetResponse(data) {
@@ -42,13 +48,19 @@ const Key = class extends Component {
   }
 
   renderObject() {
-    return (
-      <Properties value={this.state.data.properties} />
-    )
+    return <Properties value={this.state.data.properties} />
   }
 
   renderMap() {
-    return <Map />
+    return <Map geoJson={this.state.data} />
+  }
+
+  renderJson() {
+    return (
+      <div className="bg-gray-100 rounded" style={{padding:25}}>
+        <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
+      </div>
+    )
   }
 
   renderBody() {
@@ -57,6 +69,8 @@ const Key = class extends Component {
         return this.renderObject()
       case MAP:
         return this.renderMap()
+      case JSONTAB:
+        return this.renderJson()
     }
   }
 

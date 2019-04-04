@@ -18,7 +18,7 @@ const MapComponent = class extends React.PureComponent {
     return new Style({
       stroke: new Stroke({
         color: 'red',
-        width: 2
+        width: 3
       }),
       fill: new Fill({
         color: 'rgba(255,0,0,0.2)'
@@ -39,7 +39,7 @@ const MapComponent = class extends React.PureComponent {
       layers: [
         new TileLayer({
           source: new XYZ({
-            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            url: 'http://{a-c}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'// 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           })
         }),
         new VectorLayer({
