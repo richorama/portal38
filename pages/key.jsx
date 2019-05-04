@@ -76,16 +76,21 @@ const Key = class extends Component {
   }
 
   renderMap() {
-    return <Map geoJson={{type:"FeatureCollection", features: this.state.data.objects.map(x => x.object)}} />
+    return (
+      <Map
+        geoJson={{
+          type: 'FeatureCollection',
+          features: this.state.data.objects.map(x => x.object)
+        }}
+      />
+    )
   }
 
   renderStats() {
-    if (!this.state.stats){
-      return <Loading/>
+    if (!this.state.stats) {
+      return <Loading />
     }
-    return (
-      <Properties value={this.state.stats} />
-    )
+    return <Properties value={this.state.stats} />
   }
 
   renderBody() {

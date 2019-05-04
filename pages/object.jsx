@@ -57,7 +57,7 @@ const Key = class extends Component {
 
   renderJson() {
     return (
-      <div className="bg-gray-100 rounded" style={{padding:25}}>
+      <div className="bg-gray-100 rounded" style={{ padding: 25 }}>
         <pre>{JSON.stringify(this.state.data, null, 2)}</pre>
       </div>
     )
@@ -87,7 +87,7 @@ const Key = class extends Component {
     )
   }
   render() {
-    return <Panel title={this.props.keyName}>{this.renderTabControl()}</Panel>
+    return <Panel title={`${this.props.keyName} / ${this.props.id}`}>{this.renderTabControl()}</Panel>
   }
 }
 
