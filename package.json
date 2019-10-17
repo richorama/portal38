@@ -6,7 +6,7 @@
   "scripts": {
     "example": "browserify -g [ babelify --presets [ \"@babel/preset-env\" ] ] --entry index.jsx > bundle.js",
     "watch": "watchify -v -g [ babelify --presets [ \"@babel/preset-env\" ] ]  index.jsx -g [ envify --NODE_ENV development ] -o ./wwwroot/index.min.js",
-    "build": "npm run lint && npm run test && npm run browserify",
+    "build": "npm run browserify",
     "lint": "eslint . --ext .js --ext .jsx",
     "test": "mocha",
     "browserify": "browserify -g babelify index.jsx -g [ envify --NODE_ENV production ] -g uglifyify  | uglifyjs --compress warnings=false --mangle > ./wwwroot/index.min.js"
