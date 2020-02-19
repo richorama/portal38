@@ -24,7 +24,7 @@ const tabs = [
 
 const [OBJECT, MAP, JSONTAB] = tabs
 
-const Key = class extends Component {
+const Object = class extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, data: null, activeTab: tabs[0], stats: null }
@@ -48,7 +48,7 @@ const Key = class extends Component {
   }
 
   renderObject() {
-    return <Properties value={this.state.data.properties} />
+    return <Properties value={this.state.data.properties || {}} />
   }
 
   renderMap() {
@@ -91,4 +91,4 @@ const Key = class extends Component {
   }
 }
 
-module.exports = Key
+module.exports = Object
