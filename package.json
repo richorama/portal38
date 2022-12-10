@@ -15,7 +15,7 @@
   "author": "Richard Astbury",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "morgan": "^1.9.1",
     "tile38": "^0.6.6"
   },
